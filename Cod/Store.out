@@ -1,0 +1,813 @@
+============================== Prover9 ===============================
+Prover9 (32) version Dec-2007, Dec 2007.
+Process 18920 was started by cioar on DESKTOP-4J4HLA3,
+Tue Nov 30 18:29:02 2021
+The command was "/cygdrive/d/Program Files/Prover9-Mace4/bin-win32/prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+assign(report_stderr,2).
+set(ignore_option_dependencies).
+if(Prover9).
+% Conditional input included.
+assign(max_seconds,60).
+end_if.
+if(Mace4).
+% Conditional input omitted.
+end_if.
+
+formulas(assumptions).
+set(ignore_option_dependencies).
+if(Prover9).
+assign(max_seconds,120).
+assign(max_weight,10000).
+end_if.
+if(Mace4).
+assign(domain_size,5).
+assign(start_size,5).
+assign(end_size,5).
+assign(max_models,100000).
+assign(max_seconds,60).
+end_if.
+formulas(assumptions).
+hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,omdeserviciu) | hasJob(x,manager).
+hasJob(Ana,x) | hasJob(Bianca,x) | hasJob(Conroy,x) | hasJob(David,x) | hasJob(Evans,x).
+diffPeople(x,y) -> diffPeople(y,x).
+-diffPeople(x,x).
+diffJobs(x,y) -> diffJobs(y,x).
+-diffJobs(x,x).
+hasJob(x,y) & hasJob(z,y) -> -diffPeople(x,z).
+hasJob(x,y) & hasJob(x,z) -> -diffJobs(y,z).
+male(x) & -female(x) | female(x) & -male(x).
+couple(x,y) -> male(x) & female(y) | male(y) & female(x).
+couple(x,y) -> couple(y,x).
+couple(x,y) -> diffPeople(x,y).
+burlac(x) -> -couple(x,y) & male(x).
+onlyBusinessContact(x,y) -> onlyBusinessContact(y,x).
+onlyBusinessContact(x,y) -> -couple(x,y).
+couple(x,y) -> -onlyBusinessContact(x,y).
+diffJobs(client,casier).
+diffJobs(client,contabil).
+diffJobs(client,omdeserviciu).
+diffJobs(client,manager).
+diffJobs(casier,contabil).
+diffJobs(casier,omdeserviciu).
+diffJobs(casier,manager).
+diffJobs(contabil,omdeserviciu).
+diffJobs(contabil,manager).
+diffJobs(omdeserviciu,manager).
+diffPeople(Ana,Bianca).
+diffPeople(Ana,Conroy).
+diffPeople(Ana,David).
+diffPeople(Ana,Evans).
+diffPeople(Bianca,Conroy).
+diffPeople(Bianca,David).
+diffPeople(Bianca,Evans).
+diffPeople(Conroy,David).
+diffPeople(Conroy,Evans).
+diffPeople(David,Evans).
+female(Ana) & female(Bianca) & male(Conroy) & male(David) & male(Evans).
+hasJob(x,casier) & hasJob(y,manager) -> -onlyBusinessContact(x,y).
+hasJob(x,client) -> burlac(x).
+onlyBusinessContact(Evans,Ana).
+onlyBusinessContact(Ana,Evans).
+-burlac(Conroy).
+-hasJob(Conroy,manager).
+-hasJob(Conroy,client).
+-hasJob(Conroy,contabil).
+-hasJob(Conroy,casier).
+hasJob(x,contabil) & hasJob(y,casier) -> couple(x,y).
+-hasJob(David,contabil).
+-hasJob(David,casier).
+hasJob(x,contabil) & hasJob(y,casier) -> -onlyBusinessContact(x,David) | -onlyBusinessContact(y,David).
+end_of_list.
+
+formulas(goals).
+hasJob(Ana,manager) & hasJob(Bianca,casier) & hasJob(Conroy,omdeserviciu) & hasJob(David,client) & hasJob(Evans,contabil).
+end_of_list.
+
+============================== end of input ==========================
+
+% Enabling option dependencies (ignore applies only on input).
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 diffPeople(x,y) -> diffPeople(y,x) # label(non_clause).  [assumption].
+2 diffJobs(x,y) -> diffJobs(y,x) # label(non_clause).  [assumption].
+3 hasJob(x,y) & hasJob(z,y) -> -diffPeople(x,z) # label(non_clause).  [assumption].
+4 hasJob(x,y) & hasJob(x,z) -> -diffJobs(y,z) # label(non_clause).  [assumption].
+5 male(x) & -female(x) | female(x) & -male(x) # label(non_clause).  [assumption].
+6 couple(x,y) -> male(x) & female(y) | male(y) & female(x) # label(non_clause).  [assumption].
+7 couple(x,y) -> couple(y,x) # label(non_clause).  [assumption].
+8 couple(x,y) -> diffPeople(x,y) # label(non_clause).  [assumption].
+9 burlac(x) -> -couple(x,y) & male(x) # label(non_clause).  [assumption].
+10 onlyBusinessContact(x,y) -> onlyBusinessContact(y,x) # label(non_clause).  [assumption].
+11 onlyBusinessContact(x,y) -> -couple(x,y) # label(non_clause).  [assumption].
+12 couple(x,y) -> -onlyBusinessContact(x,y) # label(non_clause).  [assumption].
+13 female(Ana) & female(Bianca) & male(Conroy) & male(David) & male(Evans) # label(non_clause).  [assumption].
+14 hasJob(x,casier) & hasJob(y,manager) -> -onlyBusinessContact(x,y) # label(non_clause).  [assumption].
+15 hasJob(x,client) -> burlac(x) # label(non_clause).  [assumption].
+16 hasJob(x,contabil) & hasJob(y,casier) -> couple(x,y) # label(non_clause).  [assumption].
+17 hasJob(x,contabil) & hasJob(y,casier) -> -onlyBusinessContact(x,David) | -onlyBusinessContact(y,David) # label(non_clause).  [assumption].
+18 hasJob(Ana,manager) & hasJob(Bianca,casier) & hasJob(Conroy,omdeserviciu) & hasJob(David,client) & hasJob(Evans,contabil) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+set(ignore_option_dependencies).  [assumption].
+if(Prover9).  [assumption].
+assign(max_seconds,120).  [assumption].
+assign(max_weight,10000).  [assumption].
+end_if.  [assumption].
+if(Mace4).  [assumption].
+assign(domain_size,5).  [assumption].
+assign(start_size,5).  [assumption].
+assign(end_size,5).  [assumption].
+assign(max_models,100000).  [assumption].
+assign(max_seconds,60).  [assumption].
+end_if.  [assumption].
+formulas(assumptions).  [assumption].
+hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,omdeserviciu) | hasJob(x,manager).  [assumption].
+hasJob(Ana,x) | hasJob(Bianca,x) | hasJob(Conroy,x) | hasJob(David,x) | hasJob(Evans,x).  [assumption].
+-diffPeople(x,y) | diffPeople(y,x).  [clausify(1)].
+-diffPeople(x,x).  [assumption].
+-diffJobs(x,y) | diffJobs(y,x).  [clausify(2)].
+-diffJobs(x,x).  [assumption].
+-hasJob(x,y) | -hasJob(z,y) | -diffPeople(x,z).  [clausify(3)].
+-hasJob(x,y) | -hasJob(x,z) | -diffJobs(y,z).  [clausify(4)].
+male(x) | female(x).  [clausify(5)].
+-female(x) | -male(x).  [clausify(5)].
+-couple(x,y) | male(x) | male(y).  [clausify(6)].
+-couple(x,y) | male(x) | female(x).  [clausify(6)].
+-couple(x,y) | female(y) | male(y).  [clausify(6)].
+-couple(x,y) | female(y) | female(x).  [clausify(6)].
+-couple(x,y) | couple(y,x).  [clausify(7)].
+-couple(x,y) | diffPeople(x,y).  [clausify(8)].
+-burlac(x) | -couple(x,y).  [clausify(9)].
+-burlac(x) | male(x).  [clausify(9)].
+-onlyBusinessContact(x,y) | onlyBusinessContact(y,x).  [clausify(10)].
+-onlyBusinessContact(x,y) | -couple(x,y).  [clausify(11)].
+-couple(x,y) | -onlyBusinessContact(x,y).  [clausify(12)].
+diffJobs(client,casier).  [assumption].
+diffJobs(client,contabil).  [assumption].
+diffJobs(client,omdeserviciu).  [assumption].
+diffJobs(client,manager).  [assumption].
+diffJobs(casier,contabil).  [assumption].
+diffJobs(casier,omdeserviciu).  [assumption].
+diffJobs(casier,manager).  [assumption].
+diffJobs(contabil,omdeserviciu).  [assumption].
+diffJobs(contabil,manager).  [assumption].
+diffJobs(omdeserviciu,manager).  [assumption].
+diffPeople(Ana,Bianca).  [assumption].
+diffPeople(Ana,Conroy).  [assumption].
+diffPeople(Ana,David).  [assumption].
+diffPeople(Ana,Evans).  [assumption].
+diffPeople(Bianca,Conroy).  [assumption].
+diffPeople(Bianca,David).  [assumption].
+diffPeople(Bianca,Evans).  [assumption].
+diffPeople(Conroy,David).  [assumption].
+diffPeople(Conroy,Evans).  [assumption].
+diffPeople(David,Evans).  [assumption].
+female(Ana).  [clausify(13)].
+female(Bianca).  [clausify(13)].
+male(Conroy).  [clausify(13)].
+male(David).  [clausify(13)].
+male(Evans).  [clausify(13)].
+-hasJob(x,casier) | -hasJob(y,manager) | -onlyBusinessContact(x,y).  [clausify(14)].
+-hasJob(x,client) | burlac(x).  [clausify(15)].
+onlyBusinessContact(Evans,Ana).  [assumption].
+onlyBusinessContact(Ana,Evans).  [assumption].
+-burlac(Conroy).  [assumption].
+-hasJob(Conroy,manager).  [assumption].
+-hasJob(Conroy,client).  [assumption].
+-hasJob(Conroy,contabil).  [assumption].
+-hasJob(Conroy,casier).  [assumption].
+-hasJob(x,contabil) | -hasJob(y,casier) | couple(x,y).  [clausify(16)].
+-hasJob(David,contabil).  [assumption].
+-hasJob(David,casier).  [assumption].
+-hasJob(x,contabil) | -hasJob(y,casier) | -onlyBusinessContact(x,David) | -onlyBusinessContact(y,David).  [clausify(17)].
+-hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Conroy,omdeserviciu) | -hasJob(David,client) | -hasJob(Evans,contabil).  [deny(18)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+Eliminating set/1
+
+Eliminating if/1
+
+Eliminating assign/2
+
+Eliminating formulas/1
+
+Eliminating burlac/1
+19 -hasJob(x,client) | burlac(x).  [clausify(15)].
+20 -burlac(x) | -couple(x,y).  [clausify(9)].
+21 -burlac(x) | male(x).  [clausify(9)].
+Derived: -hasJob(x,client) | -couple(x,y).  [resolve(19,b,20,a)].
+Derived: -hasJob(x,client) | male(x).  [resolve(19,b,21,a)].
+22 -burlac(Conroy).  [assumption].
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ end_if, male, female, diffPeople, hasJob, diffJobs, couple, onlyBusinessContact ]).
+Function symbol precedence:  function_order([ Ana, Evans, Bianca, Conroy, David, casier, client, contabil, manager, omdeserviciu ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+23 end_if.  [assumption].
+24 hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,omdeserviciu) | hasJob(x,manager).  [assumption].
+25 hasJob(Ana,x) | hasJob(Bianca,x) | hasJob(Conroy,x) | hasJob(David,x) | hasJob(Evans,x).  [assumption].
+26 -diffPeople(x,y) | diffPeople(y,x).  [clausify(1)].
+27 -diffPeople(x,x).  [assumption].
+28 -diffJobs(x,y) | diffJobs(y,x).  [clausify(2)].
+29 -diffJobs(x,x).  [assumption].
+30 -hasJob(x,y) | -hasJob(z,y) | -diffPeople(x,z).  [clausify(3)].
+31 -hasJob(x,y) | -hasJob(x,z) | -diffJobs(y,z).  [clausify(4)].
+32 male(x) | female(x).  [clausify(5)].
+33 -female(x) | -male(x).  [clausify(5)].
+34 -couple(x,y) | male(x) | male(y).  [clausify(6)].
+35 -couple(x,y) | female(y) | female(x).  [clausify(6)].
+36 -couple(x,y) | couple(y,x).  [clausify(7)].
+37 -couple(x,y) | diffPeople(x,y).  [clausify(8)].
+38 -onlyBusinessContact(x,y) | onlyBusinessContact(y,x).  [clausify(10)].
+39 -onlyBusinessContact(x,y) | -couple(x,y).  [clausify(11)].
+40 diffJobs(client,casier).  [assumption].
+41 diffJobs(client,contabil).  [assumption].
+42 diffJobs(client,omdeserviciu).  [assumption].
+43 diffJobs(client,manager).  [assumption].
+44 diffJobs(casier,contabil).  [assumption].
+45 diffJobs(casier,omdeserviciu).  [assumption].
+46 diffJobs(casier,manager).  [assumption].
+47 diffJobs(contabil,omdeserviciu).  [assumption].
+48 diffJobs(contabil,manager).  [assumption].
+49 diffJobs(omdeserviciu,manager).  [assumption].
+50 diffPeople(Ana,Bianca).  [assumption].
+51 diffPeople(Ana,Conroy).  [assumption].
+52 diffPeople(Ana,David).  [assumption].
+53 diffPeople(Ana,Evans).  [assumption].
+54 diffPeople(Bianca,Conroy).  [assumption].
+55 diffPeople(Bianca,David).  [assumption].
+56 diffPeople(Bianca,Evans).  [assumption].
+57 diffPeople(Conroy,David).  [assumption].
+58 diffPeople(Conroy,Evans).  [assumption].
+59 diffPeople(David,Evans).  [assumption].
+60 female(Ana).  [clausify(13)].
+61 female(Bianca).  [clausify(13)].
+62 male(Conroy).  [clausify(13)].
+63 male(David).  [clausify(13)].
+64 male(Evans).  [clausify(13)].
+65 -hasJob(x,casier) | -hasJob(y,manager) | -onlyBusinessContact(x,y).  [clausify(14)].
+66 onlyBusinessContact(Evans,Ana).  [assumption].
+67 onlyBusinessContact(Ana,Evans).  [assumption].
+68 -hasJob(Conroy,manager).  [assumption].
+69 -hasJob(Conroy,client).  [assumption].
+70 -hasJob(Conroy,contabil).  [assumption].
+71 -hasJob(Conroy,casier).  [assumption].
+72 -hasJob(x,contabil) | -hasJob(y,casier) | couple(x,y).  [clausify(16)].
+73 -hasJob(David,contabil).  [assumption].
+74 -hasJob(David,casier).  [assumption].
+75 -hasJob(x,contabil) | -hasJob(y,casier) | -onlyBusinessContact(x,David) | -onlyBusinessContact(y,David).  [clausify(17)].
+76 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Conroy,omdeserviciu) | -hasJob(David,client) | -hasJob(Evans,contabil).  [deny(18)].
+77 -hasJob(x,client) | -couple(x,y).  [resolve(19,b,20,a)].
+78 -hasJob(x,client) | male(x).  [resolve(19,b,21,a)].
+79 -couple(x,x) | male(x).  [factor(34,b,c)].
+80 -couple(x,x) | female(x).  [factor(35,b,c)].
+81 -hasJob(x,contabil) | -hasJob(x,casier) | -onlyBusinessContact(x,David).  [factor(75,c,d)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=1): 23 end_if.  [assumption].
+
+given #2 (I,wt=15): 24 hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,omdeserviciu) | hasJob(x,manager).  [assumption].
+
+given #3 (I,wt=15): 25 hasJob(Ana,x) | hasJob(Bianca,x) | hasJob(Conroy,x) | hasJob(David,x) | hasJob(Evans,x).  [assumption].
+
+given #4 (I,wt=6): 26 -diffPeople(x,y) | diffPeople(y,x).  [clausify(1)].
+
+given #5 (I,wt=3): 27 -diffPeople(x,x).  [assumption].
+
+given #6 (I,wt=6): 28 -diffJobs(x,y) | diffJobs(y,x).  [clausify(2)].
+
+given #7 (I,wt=3): 29 -diffJobs(x,x).  [assumption].
+
+given #8 (I,wt=9): 30 -hasJob(x,y) | -hasJob(z,y) | -diffPeople(x,z).  [clausify(3)].
+
+given #9 (I,wt=9): 31 -hasJob(x,y) | -hasJob(x,z) | -diffJobs(y,z).  [clausify(4)].
+
+given #10 (I,wt=4): 32 male(x) | female(x).  [clausify(5)].
+
+given #11 (I,wt=4): 33 -female(x) | -male(x).  [clausify(5)].
+
+given #12 (I,wt=7): 34 -couple(x,y) | male(x) | male(y).  [clausify(6)].
+
+given #13 (I,wt=7): 35 -couple(x,y) | female(y) | female(x).  [clausify(6)].
+
+given #14 (I,wt=6): 36 -couple(x,y) | couple(y,x).  [clausify(7)].
+
+given #15 (I,wt=6): 37 -couple(x,y) | diffPeople(x,y).  [clausify(8)].
+
+given #16 (I,wt=6): 38 -onlyBusinessContact(x,y) | onlyBusinessContact(y,x).  [clausify(10)].
+
+given #17 (I,wt=6): 39 -onlyBusinessContact(x,y) | -couple(x,y).  [clausify(11)].
+
+given #18 (I,wt=3): 40 diffJobs(client,casier).  [assumption].
+
+given #19 (I,wt=3): 41 diffJobs(client,contabil).  [assumption].
+
+given #20 (I,wt=3): 42 diffJobs(client,omdeserviciu).  [assumption].
+
+given #21 (I,wt=3): 43 diffJobs(client,manager).  [assumption].
+
+given #22 (I,wt=3): 44 diffJobs(casier,contabil).  [assumption].
+
+given #23 (I,wt=3): 45 diffJobs(casier,omdeserviciu).  [assumption].
+
+given #24 (I,wt=3): 46 diffJobs(casier,manager).  [assumption].
+
+given #25 (I,wt=3): 47 diffJobs(contabil,omdeserviciu).  [assumption].
+
+given #26 (I,wt=3): 48 diffJobs(contabil,manager).  [assumption].
+
+given #27 (I,wt=3): 49 diffJobs(omdeserviciu,manager).  [assumption].
+
+given #28 (I,wt=3): 50 diffPeople(Ana,Bianca).  [assumption].
+
+given #29 (I,wt=3): 51 diffPeople(Ana,Conroy).  [assumption].
+
+given #30 (I,wt=3): 52 diffPeople(Ana,David).  [assumption].
+
+given #31 (I,wt=3): 53 diffPeople(Ana,Evans).  [assumption].
+
+given #32 (I,wt=3): 54 diffPeople(Bianca,Conroy).  [assumption].
+
+given #33 (I,wt=3): 55 diffPeople(Bianca,David).  [assumption].
+
+given #34 (I,wt=3): 56 diffPeople(Bianca,Evans).  [assumption].
+
+given #35 (I,wt=3): 57 diffPeople(Conroy,David).  [assumption].
+
+given #36 (I,wt=3): 58 diffPeople(Conroy,Evans).  [assumption].
+
+given #37 (I,wt=3): 59 diffPeople(David,Evans).  [assumption].
+
+given #38 (I,wt=2): 60 female(Ana).  [clausify(13)].
+
+given #39 (I,wt=2): 61 female(Bianca).  [clausify(13)].
+
+given #40 (I,wt=2): 62 male(Conroy).  [clausify(13)].
+
+given #41 (I,wt=2): 63 male(David).  [clausify(13)].
+
+given #42 (I,wt=2): 64 male(Evans).  [clausify(13)].
+
+given #43 (I,wt=9): 65 -hasJob(x,casier) | -hasJob(y,manager) | -onlyBusinessContact(x,y).  [clausify(14)].
+
+given #44 (I,wt=3): 66 onlyBusinessContact(Evans,Ana).  [assumption].
+
+given #45 (I,wt=3): 67 onlyBusinessContact(Ana,Evans).  [assumption].
+
+given #46 (I,wt=3): 68 -hasJob(Conroy,manager).  [assumption].
+
+given #47 (I,wt=3): 69 -hasJob(Conroy,client).  [assumption].
+
+given #48 (I,wt=3): 70 -hasJob(Conroy,contabil).  [assumption].
+
+given #49 (I,wt=3): 71 -hasJob(Conroy,casier).  [assumption].
+
+given #50 (I,wt=9): 72 -hasJob(x,contabil) | -hasJob(y,casier) | couple(x,y).  [clausify(16)].
+
+given #51 (I,wt=3): 73 -hasJob(David,contabil).  [assumption].
+
+given #52 (I,wt=3): 74 -hasJob(David,casier).  [assumption].
+
+given #53 (I,wt=12): 75 -hasJob(x,contabil) | -hasJob(y,casier) | -onlyBusinessContact(x,David) | -onlyBusinessContact(y,David).  [clausify(17)].
+
+given #54 (I,wt=15): 76 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Conroy,omdeserviciu) | -hasJob(David,client) | -hasJob(Evans,contabil).  [deny(18)].
+
+given #55 (I,wt=6): 77 -hasJob(x,client) | -couple(x,y).  [resolve(19,b,20,a)].
+
+given #56 (I,wt=5): 78 -hasJob(x,client) | male(x).  [resolve(19,b,21,a)].
+
+given #57 (A,wt=18): 82 -hasJob(x,y) | -diffPeople(David,x) | hasJob(Ana,y) | hasJob(Bianca,y) | hasJob(Conroy,y) | hasJob(Evans,y).  [resolve(30,a,25,d)].
+
+given #58 (F,wt=2): 117 -male(Ana).  [resolve(60,a,33,a)].
+
+given #59 (F,wt=2): 118 -male(Bianca).  [resolve(61,a,33,a)].
+
+given #60 (F,wt=2): 119 -female(Conroy).  [ur(33,b,62,a)].
+
+given #61 (F,wt=2): 120 -female(David).  [ur(33,b,63,a)].
+
+given #62 (T,wt=3): 88 diffJobs(casier,client).  [resolve(40,a,28,a)].
+
+given #63 (T,wt=3): 90 diffJobs(contabil,client).  [resolve(41,a,28,a)].
+
+given #64 (T,wt=3): 92 diffJobs(omdeserviciu,client).  [resolve(42,a,28,a)].
+
+given #65 (T,wt=3): 94 diffJobs(manager,client).  [resolve(43,a,28,a)].
+
+given #66 (A,wt=18): 83 -hasJob(x,omdeserviciu) | -diffPeople(y,x) | hasJob(y,client) | hasJob(y,casier) | hasJob(y,contabil) | hasJob(y,manager).  [resolve(30,a,24,d)].
+
+given #67 (F,wt=2): 121 -female(Evans).  [ur(33,b,64,a)].
+
+given #68 (F,wt=3): 86 -couple(x,x).  [ur(37,b,27,a)].
+
+given #69 (F,wt=3): 123 -couple(Evans,Ana).  [resolve(66,a,39,a)].
+
+given #70 (F,wt=3): 125 -couple(Ana,Evans).  [resolve(67,a,39,a)].
+
+given #71 (T,wt=3): 96 diffJobs(contabil,casier).  [resolve(44,a,28,a)].
+
+given #72 (T,wt=3): 98 diffJobs(omdeserviciu,casier).  [resolve(45,a,28,a)].
+
+given #73 (T,wt=3): 100 diffJobs(manager,casier).  [resolve(46,a,28,a)].
+
+given #74 (T,wt=3): 102 diffJobs(omdeserviciu,contabil).  [resolve(47,a,28,a)].
+
+given #75 (A,wt=18): 84 -hasJob(x,y) | -diffPeople(x,David) | hasJob(Ana,y) | hasJob(Bianca,y) | hasJob(Conroy,y) | hasJob(Evans,y).  [resolve(30,b,25,d)].
+
+given #76 (F,wt=3): 132 -hasJob(Ana,client).  [ur(78,b,117,a)].
+
+given #77 (F,wt=3): 134 -hasJob(Bianca,client).  [ur(78,b,118,a)].
+
+given #78 (F,wt=3): 135 -couple(Ana,Bianca).  [ur(34,b,117,a,c,118,a)].
+
+given #79 (F,wt=3): 136 -couple(Bianca,Ana).  [ur(34,b,118,a,c,117,a)].
+
+given #80 (T,wt=3): 104 diffJobs(manager,contabil).  [resolve(48,a,28,a)].
+
+given #81 (T,wt=3): 106 diffJobs(manager,omdeserviciu).  [resolve(49,a,28,a)].
+
+given #82 (T,wt=3): 107 diffPeople(Bianca,Ana).  [resolve(50,a,26,a)].
+
+given #83 (T,wt=3): 108 diffPeople(Conroy,Ana).  [resolve(51,a,26,a)].
+
+given #84 (A,wt=18): 85 -hasJob(x,omdeserviciu) | -diffPeople(x,y) | hasJob(y,client) | hasJob(y,casier) | hasJob(y,contabil) | hasJob(y,manager).  [resolve(30,b,24,d)].
+
+given #85 (F,wt=3): 138 -couple(David,Conroy).  [ur(35,b,119,a,c,120,a)].
+
+given #86 (F,wt=3): 139 -couple(Conroy,David).  [ur(35,b,120,a,c,119,a)].
+
+given #87 (F,wt=3): 142 -hasJob(Evans,omdeserviciu).  [ur(83,b,58,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+
+given #88 (F,wt=3): 143 -hasJob(David,omdeserviciu).  [ur(83,b,57,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+
+given #89 (T,wt=3): 109 diffPeople(David,Ana).  [resolve(52,a,26,a)].
+
+given #90 (T,wt=3): 110 diffPeople(Evans,Ana).  [resolve(53,a,26,a)].
+
+given #91 (T,wt=3): 111 diffPeople(Conroy,Bianca).  [resolve(54,a,26,a)].
+
+given #92 (T,wt=3): 112 diffPeople(David,Bianca).  [resolve(55,a,26,a)].
+
+given #93 (A,wt=6): 87 -hasJob(x,client) | -hasJob(x,casier).  [resolve(40,a,31,c)].
+
+given #94 (F,wt=3): 146 -couple(Evans,David).  [ur(35,b,120,a,c,121,a)].
+
+given #95 (F,wt=3): 147 -couple(Evans,Conroy).  [ur(35,b,119,a,c,121,a)].
+
+given #96 (F,wt=3): 148 -couple(David,Evans).  [ur(35,b,121,a,c,120,a)].
+
+given #97 (F,wt=3): 149 -couple(Conroy,Evans).  [ur(35,b,121,a,c,119,a)].
+
+given #98 (T,wt=3): 113 diffPeople(Evans,Bianca).  [resolve(56,a,26,a)].
+
+given #99 (T,wt=3): 114 diffPeople(David,Conroy).  [resolve(57,a,26,a)].
+
+given #100 (T,wt=3): 115 diffPeople(Evans,Conroy).  [resolve(58,a,26,a)].
+
+given #101 (T,wt=3): 116 diffPeople(Evans,David).  [resolve(59,a,26,a)].
+
+given #102 (A,wt=6): 89 -hasJob(x,client) | -hasJob(x,contabil).  [resolve(41,a,31,c)].
+
+given #103 (F,wt=3): 150 -hasJob(Ana,omdeserviciu).  [ur(83,b,108,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+
+given #104 (F,wt=3): 153 -hasJob(Bianca,omdeserviciu).  [ur(85,b,54,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+
+given #105 (F,wt=6): 91 -hasJob(x,client) | -hasJob(x,omdeserviciu).  [resolve(42,a,31,c)].
+
+given #106 (F,wt=6): 93 -hasJob(x,client) | -hasJob(x,manager).  [resolve(43,a,31,c)].
+
+given #107 (T,wt=3): 157 hasJob(Conroy,omdeserviciu).  [resolve(143,a,25,d),unit_del(a,150),unit_del(b,153),unit_del(d,142)].
+
+given #108 (T,wt=6): 158 hasJob(David,client) | hasJob(David,manager).  [resolve(143,a,24,d),unit_del(b,74),unit_del(c,73)].
+
+given #109 (T,wt=9): 128 hasJob(Ana,contabil) | hasJob(Bianca,contabil) | hasJob(Evans,contabil).  [resolve(73,a,25,d),unit_del(c,70)].
+
+given #110 (T,wt=9): 129 hasJob(Ana,casier) | hasJob(Bianca,casier) | hasJob(Evans,casier).  [resolve(74,a,25,d),unit_del(c,71)].
+
+given #111 (A,wt=6): 95 -hasJob(x,casier) | -hasJob(x,contabil).  [resolve(44,a,31,c)].
+
+given #112 (F,wt=6): 97 -hasJob(x,casier) | -hasJob(x,omdeserviciu).  [resolve(45,a,31,c)].
+
+given #113 (F,wt=6): 99 -hasJob(x,casier) | -hasJob(x,manager).  [resolve(46,a,31,c)].
+
+given #114 (F,wt=6): 101 -hasJob(x,contabil) | -hasJob(x,omdeserviciu).  [resolve(47,a,31,c)].
+
+given #115 (F,wt=6): 103 -hasJob(x,contabil) | -hasJob(x,manager).  [resolve(48,a,31,c)].
+
+given #116 (T,wt=9): 161 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Ana,manager).  [resolve(150,a,24,d),unit_del(a,132)].
+
+given #117 (T,wt=9): 162 hasJob(Bianca,casier) | hasJob(Bianca,contabil) | hasJob(Bianca,manager).  [resolve(153,a,24,d),unit_del(a,134)].
+
+given #118 (T,wt=9): 168 hasJob(David,client) | -hasJob(x,manager) | -diffPeople(x,David).  [resolve(158,b,30,b)].
+
+given #119 (T,wt=9): 169 hasJob(David,client) | -hasJob(x,manager) | -diffPeople(David,x).  [resolve(158,b,30,a)].
+
+given #120 (A,wt=6): 105 -hasJob(x,omdeserviciu) | -hasJob(x,manager).  [resolve(49,a,31,c)].
+
+given #121 (F,wt=6): 122 -hasJob(Evans,casier) | -hasJob(Ana,manager).  [resolve(66,a,65,c)].
+
+given #122 (F,wt=6): 124 -hasJob(Ana,casier) | -hasJob(Evans,manager).  [resolve(67,a,65,c)].
+
+given #123 (F,wt=6): 166 -hasJob(x,omdeserviciu) | -diffPeople(x,Conroy).  [resolve(157,a,30,b)].
+
+given #124 (F,wt=6): 167 -hasJob(x,omdeserviciu) | -diffPeople(Conroy,x).  [resolve(157,a,30,a)].
+
+given #125 (T,wt=9): 176 -hasJob(Bianca,casier) | hasJob(Ana,contabil) | hasJob(Evans,contabil).  [resolve(95,b,128,b)].
+
+given #126 (T,wt=9): 181 hasJob(David,client) | hasJob(Bianca,casier) | hasJob(Bianca,contabil).  [resolve(168,b,162,c),unit_del(b,55)].
+
+given #127 (T,wt=9): 182 hasJob(David,client) | hasJob(Ana,casier) | hasJob(Ana,contabil).  [resolve(168,b,161,c),unit_del(b,52)].
+
+given #128 (T,wt=12): 156 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | hasJob(Evans,manager).  [resolve(142,a,24,d)].
+
+given #129 (A,wt=27): 141 -diffPeople(x,y) | hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,manager) | hasJob(y,client) | hasJob(y,casier) | hasJob(y,contabil) | hasJob(y,manager).  [resolve(83,a,24,d)].
+
+given #130 (F,wt=12): 160 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(David,client) | -hasJob(Evans,contabil).  [back_unit_del(76),unit_del(c,157)].
+
+given #131 (T,wt=12): 159 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Evans,contabil) | hasJob(Evans,client).  [back_unit_del(137),unit_del(c,157)].
+
+given #132 (T,wt=12): 163 -hasJob(David,client) | hasJob(Ana,manager) | hasJob(Bianca,manager) | hasJob(Evans,manager).  [resolve(93,b,25,d),unit_del(d,68)].
+
+given #133 (T,wt=12): 170 hasJob(Ana,contabil) | hasJob(Evans,contabil) | -hasJob(x,casier) | couple(Bianca,x).  [resolve(128,b,72,a)].
+
+given #134 (T,wt=12): 171 hasJob(Ana,contabil) | hasJob(Evans,contabil) | -hasJob(x,contabil) | -diffPeople(x,Bianca).  [resolve(128,b,30,b)].
+
+given #135 (A,wt=15): 164 -diffPeople(Conroy,x) | hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,manager).  [resolve(157,a,85,a)].
+
+given #136 (T,wt=12): 172 hasJob(Ana,contabil) | hasJob(Evans,contabil) | -hasJob(x,contabil) | -diffPeople(Bianca,x).  [resolve(128,b,30,a)].
+
+given #137 (T,wt=12): 173 hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,contabil) | couple(x,Bianca).  [resolve(129,b,72,b)].
+
+given #138 (T,wt=12): 174 hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,casier) | -diffPeople(x,Bianca).  [resolve(129,b,30,b)].
+
+given #139 (T,wt=12): 175 hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,casier) | -diffPeople(Bianca,x).  [resolve(129,b,30,a)].
+
+given #140 (A,wt=15): 165 -diffPeople(x,Conroy) | hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,manager).  [resolve(157,a,83,a)].
+
+given #141 (T,wt=12): 177 hasJob(Ana,casier) | hasJob(Ana,contabil) | -hasJob(x,manager) | -diffPeople(x,Ana).  [resolve(161,c,30,b)].
+
+given #142 (T,wt=12): 178 hasJob(Ana,casier) | hasJob(Ana,contabil) | -hasJob(x,manager) | -diffPeople(Ana,x).  [resolve(161,c,30,a)].
+
+given #143 (T,wt=12): 179 hasJob(Bianca,casier) | hasJob(Bianca,contabil) | -hasJob(x,manager) | -diffPeople(x,Bianca).  [resolve(162,c,30,b)].
+
+given #144 (T,wt=12): 180 hasJob(Bianca,casier) | hasJob(Bianca,contabil) | -hasJob(x,manager) | -diffPeople(Bianca,x).  [resolve(162,c,30,a)].
+
+given #145 (A,wt=12): 183 hasJob(Ana,contabil) | hasJob(Evans,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier).  [resolve(176,a,129,b)].
+
+given #146 (T,wt=12): 184 hasJob(Bianca,casier) | hasJob(Bianca,contabil) | -hasJob(x,client) | -diffPeople(x,David).  [resolve(181,a,30,b)].
+
+given #147 (T,wt=12): 185 hasJob(Bianca,casier) | hasJob(Bianca,contabil) | -hasJob(x,client) | -diffPeople(David,x).  [resolve(181,a,30,a)].
+
+given #148 (T,wt=12): 186 hasJob(Ana,casier) | hasJob(Ana,contabil) | -hasJob(x,client) | -diffPeople(x,David).  [resolve(182,a,30,b)].
+
+given #149 (T,wt=12): 187 hasJob(Ana,casier) | hasJob(Ana,contabil) | -hasJob(x,client) | -diffPeople(David,x).  [resolve(182,a,30,a)].
+
+given #150 (A,wt=12): 188 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | hasJob(David,client).  [resolve(156,d,169,b),unit_del(e,59)].
+
+given #151 (T,wt=12): 189 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(Ana,casier).  [resolve(156,d,124,b)].
+
+given #152 (T,wt=12): 194 hasJob(Ana,manager) | hasJob(Bianca,manager) | hasJob(Evans,manager) | hasJob(Evans,client).  [resolve(163,a,25,d),unit_del(d,132),unit_del(e,134),unit_del(f,69)].
+
+given #153 (T,wt=12): 195 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Bianca,casier) | hasJob(Bianca,contabil).  [resolve(177,c,162,c),unit_del(c,107)].
+
+given #154 (T,wt=12): 197 hasJob(Ana,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier) | couple(Evans,Bianca).  [resolve(183,b,173,c),merge(d),merge(e)].
+
+given #155 (A,wt=15): 190 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(x,manager) | -diffPeople(x,Evans).  [resolve(156,d,30,b)].
+
+given #156 (T,wt=12): 198 hasJob(Ana,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(Evans,client).  [resolve(183,b,89,b)].
+
+given #157 (T,wt=12): 204 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | hasJob(David,client).  [resolve(194,b,169,b),unit_del(e,112)].
+
+given #158 (T,wt=12): 205 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | -hasJob(Bianca,contabil).  [resolve(194,b,103,b)].
+
+given #159 (T,wt=12): 206 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | -hasJob(Bianca,casier).  [resolve(194,b,99,b)].
+
+given #160 (A,wt=15): 191 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(x,manager) | -diffPeople(Evans,x).  [resolve(156,d,30,a)].
+
+given #161 (T,wt=12): 212 hasJob(Ana,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier) | couple(Bianca,Evans).  [resolve(197,d,36,a)].
+
+given #162 (T,wt=15): 192 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Evans,contabil) | hasJob(Ana,casier) | hasJob(Ana,contabil).  [resolve(160,c,182,a)].
+
+given #163 (T,wt=15): 193 -hasJob(Ana,manager) | -hasJob(Evans,contabil) | hasJob(Evans,client) | hasJob(Ana,casier) | hasJob(Evans,casier).  [resolve(159,b,129,b)].
+
+given #164 (T,wt=15): 196 hasJob(Bianca,casier) | hasJob(Bianca,contabil) | hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil).  [resolve(179,c,156,d),unit_del(c,113)].
+
+given #165 (A,wt=15): 199 hasJob(Ana,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,casier) | couple(Evans,x).  [resolve(183,b,72,a)].
+
+given #166 (T,wt=15): 200 hasJob(Ana,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,contabil) | -diffPeople(x,Evans).  [resolve(183,b,30,b)].
+
+given #167 (T,wt=15): 201 hasJob(Ana,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,contabil) | -diffPeople(Evans,x).  [resolve(183,b,30,a)].
+
+given #168 (T,wt=15): 202 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(x,client) | -diffPeople(x,David).  [resolve(188,d,30,b)].
+
+given #169 (T,wt=15): 203 hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(x,client) | -diffPeople(David,x).  [resolve(188,d,30,a)].
+
+given #170 (A,wt=15): 207 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | -hasJob(x,manager) | -diffPeople(x,Bianca).  [resolve(194,b,30,b)].
+
+given #171 (T,wt=15): 208 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | -hasJob(x,manager) | -diffPeople(Bianca,x).  [resolve(194,b,30,a)].
+
+given #172 (T,wt=15): 209 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Bianca,casier) | -hasJob(x,casier) | couple(Bianca,x).  [resolve(195,d,72,a)].
+
+given #173 (T,wt=15): 210 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Bianca,casier) | -hasJob(x,contabil) | -diffPeople(x,Bianca).  [resolve(195,d,30,b)].
+
+given #174 (T,wt=15): 211 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Bianca,casier) | -hasJob(x,contabil) | -diffPeople(Bianca,x).  [resolve(195,d,30,a)].
+
+given #175 (A,wt=15): 213 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | -hasJob(x,client) | -diffPeople(x,David).  [resolve(204,d,30,b)].
+
+given #176 (T,wt=15): 214 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | -hasJob(x,client) | -diffPeople(David,x).  [resolve(204,d,30,a)].
+
+given #177 (T,wt=15): 215 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | hasJob(Ana,contabil) | hasJob(Evans,contabil).  [resolve(205,d,128,b)].
+
+given #178 (T,wt=15): 216 hasJob(Ana,manager) | hasJob(Evans,manager) | hasJob(Evans,client) | hasJob(Ana,casier) | hasJob(Evans,casier).  [resolve(206,d,129,b)].
+
+given #179 (T,wt=15): 217 -hasJob(Ana,manager) | -hasJob(Evans,contabil) | hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Evans,casier).  [resolve(192,b,129,b),merge(e)].
+
+given #180 (A,wt=18): 219 hasJob(Bianca,casier) | hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(x,casier) | couple(Bianca,x).  [resolve(196,b,72,a)].
+
+given #181 (T,wt=12): 231 -hasJob(Ana,manager) | hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Evans,casier).  [resolve(217,b,183,b),merge(e),merge(f),merge(g)].
+
+given #182 (T,wt=9): 232 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Evans,casier).  [resolve(231,a,161,c),merge(d),merge(e)].
+
+given #183 (T,wt=9): 235 hasJob(Ana,casier) | hasJob(Ana,contabil) | -hasJob(Ana,manager).  [resolve(232,c,122,a)].
+
+given #184 (T,wt=6): 239 hasJob(Ana,casier) | hasJob(Ana,contabil).  [resolve(235,c,161,c),merge(c),merge(d)].
+
+given #185 (A,wt=18): 220 hasJob(Bianca,casier) | hasJob(Evans,client) | hasJob(Evans,casier) | hasJob(Evans,contabil) | -hasJob(x,contabil) | -diffPeople(x,Bianca).  [resolve(196,b,30,b)].
+
+given #186 (T,wt=6): 240 hasJob(Ana,casier) | hasJob(Evans,casier).  [resolve(239,b,173,c),merge(b),unit_del(c,135)].
+
+given #187 (T,wt=6): 244 hasJob(Ana,casier) | -hasJob(Ana,manager).  [resolve(240,b,122,a)].
+
+given #188 (T,wt=9): 241 hasJob(Ana,casier) | -hasJob(x,casier) | couple(Ana,x).  [resolve(239,b,72,a)].
+
+given #189 (T,wt=3): 248 hasJob(Ana,casier).  [resolve(241,b,240,b),merge(c),unit_del(b,125)].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.01 (+ 0.01) seconds.
+% Length of proof is 83.
+% Level of proof is 16.
+% Maximum clause weight is 18.
+% Given clauses 189.
+
+1 diffPeople(x,y) -> diffPeople(y,x) # label(non_clause).  [assumption].
+3 hasJob(x,y) & hasJob(z,y) -> -diffPeople(x,z) # label(non_clause).  [assumption].
+4 hasJob(x,y) & hasJob(x,z) -> -diffJobs(y,z) # label(non_clause).  [assumption].
+5 male(x) & -female(x) | female(x) & -male(x) # label(non_clause).  [assumption].
+6 couple(x,y) -> male(x) & female(y) | male(y) & female(x) # label(non_clause).  [assumption].
+9 burlac(x) -> -couple(x,y) & male(x) # label(non_clause).  [assumption].
+11 onlyBusinessContact(x,y) -> -couple(x,y) # label(non_clause).  [assumption].
+13 female(Ana) & female(Bianca) & male(Conroy) & male(David) & male(Evans) # label(non_clause).  [assumption].
+14 hasJob(x,casier) & hasJob(y,manager) -> -onlyBusinessContact(x,y) # label(non_clause).  [assumption].
+15 hasJob(x,client) -> burlac(x) # label(non_clause).  [assumption].
+16 hasJob(x,contabil) & hasJob(y,casier) -> couple(x,y) # label(non_clause).  [assumption].
+18 hasJob(Ana,manager) & hasJob(Bianca,casier) & hasJob(Conroy,omdeserviciu) & hasJob(David,client) & hasJob(Evans,contabil) # label(non_clause) # label(goal).  [goal].
+19 -hasJob(x,client) | burlac(x).  [clausify(15)].
+21 -burlac(x) | male(x).  [clausify(9)].
+24 hasJob(x,client) | hasJob(x,casier) | hasJob(x,contabil) | hasJob(x,omdeserviciu) | hasJob(x,manager).  [assumption].
+25 hasJob(Ana,x) | hasJob(Bianca,x) | hasJob(Conroy,x) | hasJob(David,x) | hasJob(Evans,x).  [assumption].
+26 -diffPeople(x,y) | diffPeople(y,x).  [clausify(1)].
+30 -hasJob(x,y) | -hasJob(z,y) | -diffPeople(x,z).  [clausify(3)].
+31 -hasJob(x,y) | -hasJob(x,z) | -diffJobs(y,z).  [clausify(4)].
+33 -female(x) | -male(x).  [clausify(5)].
+34 -couple(x,y) | male(x) | male(y).  [clausify(6)].
+39 -onlyBusinessContact(x,y) | -couple(x,y).  [clausify(11)].
+44 diffJobs(casier,contabil).  [assumption].
+51 diffPeople(Ana,Conroy).  [assumption].
+52 diffPeople(Ana,David).  [assumption].
+54 diffPeople(Bianca,Conroy).  [assumption].
+57 diffPeople(Conroy,David).  [assumption].
+58 diffPeople(Conroy,Evans).  [assumption].
+60 female(Ana).  [clausify(13)].
+61 female(Bianca).  [clausify(13)].
+65 -hasJob(x,casier) | -hasJob(y,manager) | -onlyBusinessContact(x,y).  [clausify(14)].
+66 onlyBusinessContact(Evans,Ana).  [assumption].
+67 onlyBusinessContact(Ana,Evans).  [assumption].
+68 -hasJob(Conroy,manager).  [assumption].
+69 -hasJob(Conroy,client).  [assumption].
+70 -hasJob(Conroy,contabil).  [assumption].
+71 -hasJob(Conroy,casier).  [assumption].
+72 -hasJob(x,contabil) | -hasJob(y,casier) | couple(x,y).  [clausify(16)].
+73 -hasJob(David,contabil).  [assumption].
+74 -hasJob(David,casier).  [assumption].
+76 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Conroy,omdeserviciu) | -hasJob(David,client) | -hasJob(Evans,contabil).  [deny(18)].
+78 -hasJob(x,client) | male(x).  [resolve(19,b,21,a)].
+83 -hasJob(x,omdeserviciu) | -diffPeople(y,x) | hasJob(y,client) | hasJob(y,casier) | hasJob(y,contabil) | hasJob(y,manager).  [resolve(30,a,24,d)].
+85 -hasJob(x,omdeserviciu) | -diffPeople(x,y) | hasJob(y,client) | hasJob(y,casier) | hasJob(y,contabil) | hasJob(y,manager).  [resolve(30,b,24,d)].
+95 -hasJob(x,casier) | -hasJob(x,contabil).  [resolve(44,a,31,c)].
+108 diffPeople(Conroy,Ana).  [resolve(51,a,26,a)].
+117 -male(Ana).  [resolve(60,a,33,a)].
+118 -male(Bianca).  [resolve(61,a,33,a)].
+122 -hasJob(Evans,casier) | -hasJob(Ana,manager).  [resolve(66,a,65,c)].
+123 -couple(Evans,Ana).  [resolve(66,a,39,a)].
+125 -couple(Ana,Evans).  [resolve(67,a,39,a)].
+128 hasJob(Ana,contabil) | hasJob(Bianca,contabil) | hasJob(Evans,contabil).  [resolve(73,a,25,d),unit_del(c,70)].
+129 hasJob(Ana,casier) | hasJob(Bianca,casier) | hasJob(Evans,casier).  [resolve(74,a,25,d),unit_del(c,71)].
+132 -hasJob(Ana,client).  [ur(78,b,117,a)].
+135 -couple(Ana,Bianca).  [ur(34,b,117,a,c,118,a)].
+136 -couple(Bianca,Ana).  [ur(34,b,118,a,c,117,a)].
+142 -hasJob(Evans,omdeserviciu).  [ur(83,b,58,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+143 -hasJob(David,omdeserviciu).  [ur(83,b,57,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+150 -hasJob(Ana,omdeserviciu).  [ur(83,b,108,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+153 -hasJob(Bianca,omdeserviciu).  [ur(85,b,54,a,c,69,a,d,71,a,e,70,a,f,68,a)].
+157 hasJob(Conroy,omdeserviciu).  [resolve(143,a,25,d),unit_del(a,150),unit_del(b,153),unit_del(d,142)].
+158 hasJob(David,client) | hasJob(David,manager).  [resolve(143,a,24,d),unit_del(b,74),unit_del(c,73)].
+160 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(David,client) | -hasJob(Evans,contabil).  [back_unit_del(76),unit_del(c,157)].
+161 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Ana,manager).  [resolve(150,a,24,d),unit_del(a,132)].
+168 hasJob(David,client) | -hasJob(x,manager) | -diffPeople(x,David).  [resolve(158,b,30,b)].
+170 hasJob(Ana,contabil) | hasJob(Evans,contabil) | -hasJob(x,casier) | couple(Bianca,x).  [resolve(128,b,72,a)].
+173 hasJob(Ana,casier) | hasJob(Evans,casier) | -hasJob(x,contabil) | couple(x,Bianca).  [resolve(129,b,72,b)].
+176 -hasJob(Bianca,casier) | hasJob(Ana,contabil) | hasJob(Evans,contabil).  [resolve(95,b,128,b)].
+182 hasJob(David,client) | hasJob(Ana,casier) | hasJob(Ana,contabil).  [resolve(168,b,161,c),unit_del(b,52)].
+183 hasJob(Ana,contabil) | hasJob(Evans,contabil) | hasJob(Ana,casier) | hasJob(Evans,casier).  [resolve(176,a,129,b)].
+192 -hasJob(Ana,manager) | -hasJob(Bianca,casier) | -hasJob(Evans,contabil) | hasJob(Ana,casier) | hasJob(Ana,contabil).  [resolve(160,c,182,a)].
+217 -hasJob(Ana,manager) | -hasJob(Evans,contabil) | hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Evans,casier).  [resolve(192,b,129,b),merge(e)].
+231 -hasJob(Ana,manager) | hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Evans,casier).  [resolve(217,b,183,b),merge(e),merge(f),merge(g)].
+232 hasJob(Ana,casier) | hasJob(Ana,contabil) | hasJob(Evans,casier).  [resolve(231,a,161,c),merge(d),merge(e)].
+235 hasJob(Ana,casier) | hasJob(Ana,contabil) | -hasJob(Ana,manager).  [resolve(232,c,122,a)].
+239 hasJob(Ana,casier) | hasJob(Ana,contabil).  [resolve(235,c,161,c),merge(c),merge(d)].
+240 hasJob(Ana,casier) | hasJob(Evans,casier).  [resolve(239,b,173,c),merge(b),unit_del(c,135)].
+241 hasJob(Ana,casier) | -hasJob(x,casier) | couple(Ana,x).  [resolve(239,b,72,a)].
+248 hasJob(Ana,casier).  [resolve(241,b,240,b),merge(c),unit_del(b,125)].
+261 hasJob(Ana,contabil) | hasJob(Evans,contabil).  [resolve(248,a,170,c),unit_del(c,136)].
+266 -hasJob(Ana,contabil).  [ur(95,a,248,a)].
+268 -hasJob(Evans,contabil).  [ur(72,b,248,a,c,123,a)].
+278 $F.  [back_unit_del(261),unit_del(a,266),unit_del(b,268)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=189. Generated=718. Kept=255. proofs=1.
+Usable=127. Sos=6. Demods=0. Limbo=12, Disabled=185. Hints=0.
+Weight_deleted=0. Literals_deleted=0.
+Forward_subsumed=462. Back_subsumed=78.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=32.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=277. Nonunit_bsub_feature_tests=350.
+Megabytes=0.21.
+User_CPU=0.01, System_CPU=0.03, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 18920 exit (max_proofs) Tue Nov 30 18:29:02 2021

@@ -1,0 +1,55 @@
+assign(report_stderr, 2).
+set(ignore_option_dependencies). % GUI handles dependencies
+
+if(Prover9). % Options for Prover9
+  assign(max_seconds, 60).
+end_if.
+
+if(Mace4).   % Options for Mace4
+  assign(max_seconds, 60).
+end_if.
+
+formulas(assumptions).
+
+cavaler(x)-> -valet(x) & -spion(x).
+valet(x) -> -cavaler(x) & -spion(x).
+spion(x) -> -cavaler(x) & -valet(x).
+-cavaler(x) & -valet(x) -> spion(x).
+
+cavaler(A) | valet(A) | spion(A).
+cavaler(B) | valet(B) | spion(B).
+cavaler(C) | valet(C) | spion(C).
+
+cavaler(A) -> -cavaler(B) & -cavaler(C).
+cavaler(B) -> -cavaler(A) & -cavaler(C).
+cavaler(C) -> -cavaler(B) & -cavaler(A).
+
+valet(A) -> -valet(B) & -valet(C).
+valet(B) -> -valet(A) & -valet(C).
+valet(C) -> -valet(B) & -valet(A).
+
+spion(A) -> -spion(B) & -spion(C).
+spion(B) -> -spion(A) & -spion(C).
+spion(C) -> -spion(B) & -spion(A).
+
+%Sunt cavaler.
+cavaler(A) -> cavaler(A).
+valet(A) -> -cavaler(A).
+spion(A) -> cavaler(A) | -cavaler(A).
+
+cavaler(B) -> cavaler(A).
+valet(B) -> -cavaler(A).
+spion(B) -> cavaler(A) | -cavaler(A).
+
+cavaler(C) -> spion(C).
+valet(C) -> -spion(C).
+spion(C) -> spion(C) | -spion(C).
+
+end_of_list.
+
+formulas(goals).
+
+cavaler(A) & spion(B) & valet(C).
+
+end_of_list.
+

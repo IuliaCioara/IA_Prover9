@@ -1,0 +1,100 @@
+assign(report_stderr, 2).
+set(ignore_option_dependencies). % GUI handles dependencies
+
+if(Prover9). % Options for Prover9
+  assign(max_seconds, 60).
+end_if.
+
+if(Mace4).   % Options for Mace4
+  assign(max_seconds, 60).
+end_if.
+
+formulas(assumptions).
+
+set(ignore_option_dependencies). % GUI handles dependencies
+
+if(Prover9). % Options for Prover9
+  assign(max_seconds, 120).
+  assign(max_weight, 10000).
+end_if.
+
+if(Mace4).   % Options for Mace4
+  assign(domain_size, 5).
+  assign(start_size, 5).
+  assign(end_size, 5).
+  assign(max_models, 100000).
+  assign(max_seconds, 60).
+end_if.
+
+formulas(assumptions).
+
+hasJob(x, client) | hasJob(x, casier) | hasJob(x,contabil) | hasJob(x,omdeserviciu) | hasJob(x,manager).
+hasJob(Ana, x) | hasJob(Bianca, x) | hasJob(Conroy, x) | hasJob(David, x) | hasJob(Evans, x).
+
+diffPeople(x,y)->diffPeople(y,x).
+-diffPeople(x,x).
+
+diffJobs(x,y)->diffJobs(y,x).
+-diffJobs(x,x).
+
+hasJob(x,y) & hasJob(z,y) -> -diffPeople(x,z).
+hasJob(x,y) & hasJob(x,z) -> -diffJobs(y,z).
+
+(male(x) & -female(x)) | (female(x) & -male(x)).
+
+couple(x,y)->(male(x) & female(y)) | (male(y) & female(x)).
+couple(x,y)->couple(y,x).
+couple(x,y)-> diffPeople(x,y).
+
+burlac(x) -> -couple(x,y) & male(x).
+onlyBusinessContact(x,y)->onlyBusinessContact(y,x).
+onlyBusinessContact(x,y) -> -couple(x,y).
+couple(x,y) -> -onlyBusinessContact(x,y).
+
+diffJobs(client,casier).
+diffJobs(client,contabil).
+diffJobs(client,omdeserviciu).
+diffJobs(client,manager).
+diffJobs(casier,contabil).
+diffJobs(casier,omdeserviciu).
+diffJobs(casier,manager).
+diffJobs(contabil,omdeserviciu).
+diffJobs(contabil,manager).
+diffJobs(omdeserviciu,manager).
+
+diffPeople(Ana,Bianca).
+diffPeople(Ana,Conroy).
+diffPeople(Ana,David).
+diffPeople(Ana,Evans).
+diffPeople(Bianca,Conroy).
+diffPeople(Bianca,David).
+diffPeople(Bianca,Evans).
+diffPeople(Conroy,David).
+diffPeople(Conroy,Evans).
+diffPeople(David,Evans).
+
+female(Ana) & female(Bianca) & male(Conroy) & male(David) & male(Evans).
+hasJob(x, casier) & hasJob(y, manager) -> -onlyBusinessContact(x,y).
+hasJob(x, client) -> burlac(x).
+onlyBusinessContact(Evans,Ana).
+onlyBusinessContact(Ana,Evans).
+-burlac(Conroy).
+
+-hasJob(Conroy, manager).
+-hasJob(Conroy, client).
+-hasJob(Conroy,contabil).
+-hasJob(Conroy,casier).
+
+hasJob(x,contabil) & hasJob(y,casier) -> couple(x,y).
+-hasJob(David, contabil).
+-hasJob(David, casier).
+hasJob(x,contabil) & hasJob(y,casier)-> -onlyBusinessContact(x,David) | -onlyBusinessContact(y,David).
+
+end_of_list.
+
+formulas(goals).
+
+hasJob(Ana,manager) & hasJob(Bianca,casier) & hasJob(Conroy,omdeserviciu) & hasJob(David,client) & hasJob(Evans,contabil).
+
+end_of_list.
+

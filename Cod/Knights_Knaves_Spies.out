@@ -1,0 +1,352 @@
+============================== Prover9 ===============================
+Prover9 (32) version Dec-2007, Dec 2007.
+Process 10416 was started by cioar on DESKTOP-4J4HLA3,
+Tue Nov 30 17:25:56 2021
+The command was "/cygdrive/d/Program Files/Prover9-Mace4/bin-win32/prover9".
+============================== end of head ===========================
+
+============================== INPUT =================================
+assign(report_stderr,2).
+set(ignore_option_dependencies).
+if(Prover9).
+% Conditional input included.
+assign(max_seconds,60).
+end_if.
+if(Mace4).
+% Conditional input omitted.
+end_if.
+
+formulas(assumptions).
+cavaler(x) -> -valet(x) & -spion(x).
+valet(x) -> -cavaler(x) & -spion(x).
+spion(x) -> -cavaler(x) & -valet(x).
+-cavaler(x) & -valet(x) -> spion(x).
+cavaler(A) | valet(A) | spion(A).
+cavaler(B) | valet(B) | spion(B).
+cavaler(C) | valet(C) | spion(C).
+cavaler(A) -> -cavaler(B) & -cavaler(C).
+cavaler(B) -> -cavaler(A) & -cavaler(C).
+cavaler(C) -> -cavaler(B) & -cavaler(A).
+valet(A) -> -valet(B) & -valet(C).
+valet(B) -> -valet(A) & -valet(C).
+valet(C) -> -valet(B) & -valet(A).
+spion(A) -> -spion(B) & -spion(C).
+spion(B) -> -spion(A) & -spion(C).
+spion(C) -> -spion(B) & -spion(A).
+cavaler(A) -> cavaler(A).
+valet(A) -> -cavaler(A).
+spion(A) -> cavaler(A) | -cavaler(A).
+cavaler(B) -> cavaler(A).
+valet(B) -> -cavaler(A).
+spion(B) -> cavaler(A) | -cavaler(A).
+cavaler(C) -> spion(C).
+valet(C) -> -spion(C).
+spion(C) -> spion(C) | -spion(C).
+end_of_list.
+
+formulas(goals).
+cavaler(A) & spion(B) & valet(C).
+end_of_list.
+
+============================== end of input ==========================
+
+% Enabling option dependencies (ignore applies only on input).
+
+============================== PROCESS NON-CLAUSAL FORMULAS ==========
+
+% Formulas that are not ordinary clauses:
+1 cavaler(x) -> -valet(x) & -spion(x) # label(non_clause).  [assumption].
+2 valet(x) -> -cavaler(x) & -spion(x) # label(non_clause).  [assumption].
+3 spion(x) -> -cavaler(x) & -valet(x) # label(non_clause).  [assumption].
+4 -cavaler(x) & -valet(x) -> spion(x) # label(non_clause).  [assumption].
+5 cavaler(A) -> -cavaler(B) & -cavaler(C) # label(non_clause).  [assumption].
+6 cavaler(B) -> -cavaler(A) & -cavaler(C) # label(non_clause).  [assumption].
+7 cavaler(C) -> -cavaler(B) & -cavaler(A) # label(non_clause).  [assumption].
+8 valet(A) -> -valet(B) & -valet(C) # label(non_clause).  [assumption].
+9 valet(B) -> -valet(A) & -valet(C) # label(non_clause).  [assumption].
+10 valet(C) -> -valet(B) & -valet(A) # label(non_clause).  [assumption].
+11 spion(A) -> -spion(B) & -spion(C) # label(non_clause).  [assumption].
+12 spion(B) -> -spion(A) & -spion(C) # label(non_clause).  [assumption].
+13 spion(C) -> -spion(B) & -spion(A) # label(non_clause).  [assumption].
+14 cavaler(A) -> cavaler(A) # label(non_clause).  [assumption].
+15 valet(A) -> -cavaler(A) # label(non_clause).  [assumption].
+16 spion(A) -> cavaler(A) | -cavaler(A) # label(non_clause).  [assumption].
+17 cavaler(B) -> cavaler(A) # label(non_clause).  [assumption].
+18 valet(B) -> -cavaler(A) # label(non_clause).  [assumption].
+19 spion(B) -> cavaler(A) | -cavaler(A) # label(non_clause).  [assumption].
+20 cavaler(C) -> spion(C) # label(non_clause).  [assumption].
+21 valet(C) -> -spion(C) # label(non_clause).  [assumption].
+22 spion(C) -> spion(C) | -spion(C) # label(non_clause).  [assumption].
+23 cavaler(A) & spion(B) & valet(C) # label(non_clause) # label(goal).  [goal].
+
+============================== end of process non-clausal formulas ===
+
+============================== PROCESS INITIAL CLAUSES ===============
+
+% Clauses before input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+-cavaler(x) | -valet(x).  [clausify(1)].
+-cavaler(x) | -spion(x).  [clausify(1)].
+-valet(x) | -cavaler(x).  [clausify(2)].
+-valet(x) | -spion(x).  [clausify(2)].
+-spion(x) | -cavaler(x).  [clausify(3)].
+-spion(x) | -valet(x).  [clausify(3)].
+cavaler(x) | valet(x) | spion(x).  [clausify(4)].
+cavaler(A) | valet(A) | spion(A).  [assumption].
+cavaler(B) | valet(B) | spion(B).  [assumption].
+cavaler(C) | valet(C) | spion(C).  [assumption].
+-cavaler(A) | -cavaler(B).  [clausify(5)].
+-cavaler(A) | -cavaler(C).  [clausify(5)].
+-cavaler(B) | -cavaler(A).  [clausify(6)].
+-cavaler(B) | -cavaler(C).  [clausify(6)].
+-cavaler(C) | -cavaler(B).  [clausify(7)].
+-cavaler(C) | -cavaler(A).  [clausify(7)].
+-valet(A) | -valet(B).  [clausify(8)].
+-valet(A) | -valet(C).  [clausify(8)].
+-valet(B) | -valet(A).  [clausify(9)].
+-valet(B) | -valet(C).  [clausify(9)].
+-valet(C) | -valet(B).  [clausify(10)].
+-valet(C) | -valet(A).  [clausify(10)].
+-spion(A) | -spion(B).  [clausify(11)].
+-spion(A) | -spion(C).  [clausify(11)].
+-spion(B) | -spion(A).  [clausify(12)].
+-spion(B) | -spion(C).  [clausify(12)].
+-spion(C) | -spion(B).  [clausify(13)].
+-spion(C) | -spion(A).  [clausify(13)].
+-valet(A) | -cavaler(A).  [clausify(15)].
+-cavaler(B) | cavaler(A).  [clausify(17)].
+-valet(B) | -cavaler(A).  [clausify(18)].
+-cavaler(C) | spion(C).  [clausify(20)].
+-valet(C) | -spion(C).  [clausify(21)].
+-cavaler(A) | -spion(B) | -valet(C).  [deny(23)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== PREDICATE ELIMINATION =================
+
+No predicates eliminated.
+
+============================== end predicate elimination =============
+
+Auto_denials:  (non-Horn, no changes).
+
+Term ordering decisions:
+Predicate symbol precedence:  predicate_order([ cavaler, spion, valet ]).
+Function symbol precedence:  function_order([ C, A, B ]).
+After inverse_order:  (no changes).
+Unfolding symbols: (none).
+
+Auto_inference settings:
+  % set(binary_resolution).  % (non-Horn)
+  % set(neg_ur_resolution).  % (non-Horn, less than 100 clauses)
+
+Auto_process settings:
+  % set(factor).  % (non-Horn)
+  % set(unit_deletion).  % (non-Horn)
+
+============================== end of process initial clauses ========
+
+============================== CLAUSES FOR SEARCH ====================
+
+% Clauses after input processing:
+
+formulas(usable).
+end_of_list.
+
+formulas(sos).
+24 -cavaler(x) | -valet(x).  [clausify(1)].
+25 -cavaler(x) | -spion(x).  [clausify(1)].
+26 -valet(x) | -spion(x).  [clausify(2)].
+27 cavaler(x) | valet(x) | spion(x).  [clausify(4)].
+28 -cavaler(A) | -cavaler(B).  [clausify(5)].
+29 -cavaler(A) | -cavaler(C).  [clausify(5)].
+30 -cavaler(B) | -cavaler(C).  [clausify(6)].
+31 -valet(A) | -valet(B).  [clausify(8)].
+32 -valet(A) | -valet(C).  [clausify(8)].
+33 -valet(B) | -valet(C).  [clausify(9)].
+34 -spion(A) | -spion(B).  [clausify(11)].
+35 -spion(A) | -spion(C).  [clausify(11)].
+36 -spion(B) | -spion(C).  [clausify(12)].
+37 -cavaler(B) | cavaler(A).  [clausify(17)].
+38 -valet(B) | -cavaler(A).  [clausify(18)].
+39 -cavaler(C) | spion(C).  [clausify(20)].
+40 -cavaler(A) | -spion(B) | -valet(C).  [deny(23)].
+end_of_list.
+
+formulas(demodulators).
+end_of_list.
+
+============================== end of clauses for search =============
+
+============================== SEARCH ================================
+
+% Starting search at 0.00 seconds.
+
+given #1 (I,wt=4): 24 -cavaler(x) | -valet(x).  [clausify(1)].
+
+given #2 (I,wt=4): 25 -cavaler(x) | -spion(x).  [clausify(1)].
+
+given #3 (I,wt=4): 26 -valet(x) | -spion(x).  [clausify(2)].
+
+given #4 (I,wt=6): 27 cavaler(x) | valet(x) | spion(x).  [clausify(4)].
+
+given #5 (I,wt=4): 28 -cavaler(A) | -cavaler(B).  [clausify(5)].
+
+given #6 (I,wt=4): 29 -cavaler(A) | -cavaler(C).  [clausify(5)].
+
+given #7 (I,wt=4): 30 -cavaler(B) | -cavaler(C).  [clausify(6)].
+
+given #8 (I,wt=4): 31 -valet(A) | -valet(B).  [clausify(8)].
+
+given #9 (I,wt=4): 32 -valet(A) | -valet(C).  [clausify(8)].
+
+given #10 (I,wt=4): 33 -valet(B) | -valet(C).  [clausify(9)].
+
+given #11 (I,wt=4): 34 -spion(A) | -spion(B).  [clausify(11)].
+
+given #12 (I,wt=4): 35 -spion(A) | -spion(C).  [clausify(11)].
+
+given #13 (I,wt=4): 36 -spion(B) | -spion(C).  [clausify(12)].
+
+given #14 (I,wt=4): 37 -cavaler(B) | cavaler(A).  [clausify(17)].
+
+given #15 (I,wt=4): 38 -valet(B) | -cavaler(A).  [clausify(18)].
+
+given #16 (I,wt=4): 39 -cavaler(C) | spion(C).  [clausify(20)].
+
+given #17 (I,wt=6): 40 -cavaler(A) | -spion(B) | -valet(C).  [deny(23)].
+
+given #18 (A,wt=6): 41 -valet(A) | cavaler(B) | spion(B).  [resolve(31,b,27,b)].
+
+given #19 (T,wt=6): 42 -valet(C) | cavaler(A) | spion(A).  [resolve(32,a,27,b)].
+
+given #20 (T,wt=6): 43 -valet(C) | cavaler(B) | spion(B).  [resolve(33,a,27,b)].
+
+given #21 (T,wt=6): 44 -cavaler(A) | cavaler(B) | spion(B).  [resolve(38,a,27,b)].
+
+given #22 (T,wt=8): 45 -cavaler(A) | -spion(B) | cavaler(C) | spion(C).  [resolve(40,c,27,b)].
+
+given #23 (A,wt=8): 46 cavaler(B) | spion(B) | cavaler(A) | spion(A).  [resolve(41,a,27,b)].
+
+given #24 (T,wt=8): 47 cavaler(A) | spion(A) | cavaler(C) | spion(C).  [resolve(42,a,27,b)].
+
+given #25 (T,wt=8): 48 cavaler(B) | spion(B) | cavaler(C) | spion(C).  [resolve(43,a,27,b)].
+
+given #26 (T,wt=8): 49 cavaler(B) | cavaler(A) | spion(A) | -spion(C).  [resolve(46,b,36,a)].
+
+given #27 (T,wt=8): 50 cavaler(B) | cavaler(C) | spion(C) | -cavaler(A).  [resolve(48,b,45,b),merge(e),merge(f)].
+
+given #28 (A,wt=8): 51 cavaler(B) | cavaler(C) | spion(C) | -spion(A).  [resolve(48,b,34,b)].
+
+given #29 (T,wt=8): 52 cavaler(B) | cavaler(C) | spion(C) | cavaler(A).  [resolve(51,d,47,b),merge(e),merge(f)].
+
+given #30 (T,wt=8): 53 cavaler(B) | cavaler(C) | cavaler(A) | spion(A).  [resolve(52,c,49,d),merge(d),merge(e)].
+
+given #31 (T,wt=8): 54 cavaler(B) | cavaler(C) | cavaler(A) | -spion(C).  [resolve(53,d,35,a)].
+
+given #32 (T,wt=6): 55 cavaler(B) | cavaler(C) | cavaler(A).  [resolve(54,d,52,c),merge(d),merge(e),merge(f)].
+
+given #33 (A,wt=4): 56 cavaler(C) | cavaler(A).  [resolve(55,a,37,a),merge(c)].
+
+given #34 (T,wt=6): 57 cavaler(C) | cavaler(B) | spion(C).  [resolve(56,b,50,d),merge(c)].
+
+given #35 (T,wt=6): 58 cavaler(C) | cavaler(B) | spion(B).  [resolve(56,b,44,a)].
+
+given #36 (T,wt=6): 59 cavaler(C) | cavaler(B) | -spion(C).  [resolve(58,c,36,a)].
+
+given #37 (T,wt=4): 61 cavaler(C) | cavaler(B).  [resolve(59,c,57,c),merge(c),merge(d)].
+
+given #38 (A,wt=4): 62 cavaler(C) | -cavaler(A).  [resolve(61,b,28,b)].
+
+============================== PROOF =================================
+
+% Proof 1 at 0.00 (+ 0.01) seconds.
+% Length of proof is 52.
+% Level of proof is 17.
+% Maximum clause weight is 8.
+% Given clauses 38.
+
+4 -cavaler(x) & -valet(x) -> spion(x) # label(non_clause).  [assumption].
+5 cavaler(A) -> -cavaler(B) & -cavaler(C) # label(non_clause).  [assumption].
+6 cavaler(B) -> -cavaler(A) & -cavaler(C) # label(non_clause).  [assumption].
+8 valet(A) -> -valet(B) & -valet(C) # label(non_clause).  [assumption].
+9 valet(B) -> -valet(A) & -valet(C) # label(non_clause).  [assumption].
+11 spion(A) -> -spion(B) & -spion(C) # label(non_clause).  [assumption].
+12 spion(B) -> -spion(A) & -spion(C) # label(non_clause).  [assumption].
+17 cavaler(B) -> cavaler(A) # label(non_clause).  [assumption].
+18 valet(B) -> -cavaler(A) # label(non_clause).  [assumption].
+20 cavaler(C) -> spion(C) # label(non_clause).  [assumption].
+23 cavaler(A) & spion(B) & valet(C) # label(non_clause) # label(goal).  [goal].
+27 cavaler(x) | valet(x) | spion(x).  [clausify(4)].
+28 -cavaler(A) | -cavaler(B).  [clausify(5)].
+29 -cavaler(A) | -cavaler(C).  [clausify(5)].
+30 -cavaler(B) | -cavaler(C).  [clausify(6)].
+31 -valet(A) | -valet(B).  [clausify(8)].
+32 -valet(A) | -valet(C).  [clausify(8)].
+33 -valet(B) | -valet(C).  [clausify(9)].
+34 -spion(A) | -spion(B).  [clausify(11)].
+35 -spion(A) | -spion(C).  [clausify(11)].
+36 -spion(B) | -spion(C).  [clausify(12)].
+37 -cavaler(B) | cavaler(A).  [clausify(17)].
+38 -valet(B) | -cavaler(A).  [clausify(18)].
+39 -cavaler(C) | spion(C).  [clausify(20)].
+40 -cavaler(A) | -spion(B) | -valet(C).  [deny(23)].
+41 -valet(A) | cavaler(B) | spion(B).  [resolve(31,b,27,b)].
+42 -valet(C) | cavaler(A) | spion(A).  [resolve(32,a,27,b)].
+43 -valet(C) | cavaler(B) | spion(B).  [resolve(33,a,27,b)].
+44 -cavaler(A) | cavaler(B) | spion(B).  [resolve(38,a,27,b)].
+45 -cavaler(A) | -spion(B) | cavaler(C) | spion(C).  [resolve(40,c,27,b)].
+46 cavaler(B) | spion(B) | cavaler(A) | spion(A).  [resolve(41,a,27,b)].
+47 cavaler(A) | spion(A) | cavaler(C) | spion(C).  [resolve(42,a,27,b)].
+48 cavaler(B) | spion(B) | cavaler(C) | spion(C).  [resolve(43,a,27,b)].
+49 cavaler(B) | cavaler(A) | spion(A) | -spion(C).  [resolve(46,b,36,a)].
+50 cavaler(B) | cavaler(C) | spion(C) | -cavaler(A).  [resolve(48,b,45,b),merge(e),merge(f)].
+51 cavaler(B) | cavaler(C) | spion(C) | -spion(A).  [resolve(48,b,34,b)].
+52 cavaler(B) | cavaler(C) | spion(C) | cavaler(A).  [resolve(51,d,47,b),merge(e),merge(f)].
+53 cavaler(B) | cavaler(C) | cavaler(A) | spion(A).  [resolve(52,c,49,d),merge(d),merge(e)].
+54 cavaler(B) | cavaler(C) | cavaler(A) | -spion(C).  [resolve(53,d,35,a)].
+55 cavaler(B) | cavaler(C) | cavaler(A).  [resolve(54,d,52,c),merge(d),merge(e),merge(f)].
+56 cavaler(C) | cavaler(A).  [resolve(55,a,37,a),merge(c)].
+57 cavaler(C) | cavaler(B) | spion(C).  [resolve(56,b,50,d),merge(c)].
+58 cavaler(C) | cavaler(B) | spion(B).  [resolve(56,b,44,a)].
+59 cavaler(C) | cavaler(B) | -spion(C).  [resolve(58,c,36,a)].
+61 cavaler(C) | cavaler(B).  [resolve(59,c,57,c),merge(c),merge(d)].
+62 cavaler(C) | -cavaler(A).  [resolve(61,b,28,b)].
+63 cavaler(C).  [resolve(62,b,56,b),merge(b)].
+64 spion(C).  [back_unit_del(39),unit_del(a,63)].
+65 -cavaler(B).  [back_unit_del(30),unit_del(b,63)].
+66 -cavaler(A).  [back_unit_del(29),unit_del(b,63)].
+67 spion(A).  [back_unit_del(49),unit_del(a,65),unit_del(b,66),unit_del(d,64)].
+69 $F.  [back_unit_del(35),unit_del(a,67),unit_del(b,64)].
+
+============================== end of proof ==========================
+
+============================== STATISTICS ============================
+
+Given=38. Generated=84. Kept=45. proofs=1.
+Usable=17. Sos=1. Demods=0. Limbo=5, Disabled=56. Hints=0.
+Weight_deleted=0. Literals_deleted=0.
+Forward_subsumed=38. Back_subsumed=16.
+Sos_limit_deleted=0. Sos_displaced=0. Sos_removed=0.
+New_demodulators=0 (0 lex), Back_demodulated=0. Back_unit_deleted=6.
+Demod_attempts=0. Demod_rewrites=0.
+Res_instance_prunes=0. Para_instance_prunes=0. Basic_paramod_prunes=0.
+Nonunit_fsub_feature_tests=27. Nonunit_bsub_feature_tests=60.
+Megabytes=0.06.
+User_CPU=0.01, System_CPU=0.01, Wall_clock=0.
+
+============================== end of statistics =====================
+
+============================== end of search =========================
+
+THEOREM PROVED
+
+Exiting with 1 proof.
+
+Process 10416 exit (max_proofs) Tue Nov 30 17:25:56 2021
